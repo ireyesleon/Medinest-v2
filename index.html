@@ -57,7 +57,8 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .pb.on{background:var(--teal);box-shadow:0 3px 12px rgba(29,158,117,.5);}
 .pt{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid var(--blue);margin:0 auto;filter:drop-shadow(0 2px 3px rgba(24,95,165,.3));}
 .pt.on{border-top-color:var(--teal);}
-.mc{position:absolute;bottom:14px;left:12px;right:12px;background:var(--w);border-radius:var(--rl);padding:14px 16px;box-shadow:var(--sh2);cursor:pointer;border:0.5px solid rgba(0,0,0,.05);}
+.mc{position:absolute;bottom:14px;left:12px;right:12px;background:var(--w);border-radius:var(--rl);box-shadow:var(--sh2);cursor:pointer;border:0.5px solid rgba(0,0,0,.05);overflow:hidden;display:none;flex-direction:row;height:100px;transition:transform .25s cubic-bezier(.3,1.2,.5,1),opacity .2s;}
+.mc.on{display:flex;}
 
 /* GALLERY */
 .gl{position:relative;height:230px;overflow:hidden;background:var(--bluep);flex-shrink:0;}
@@ -242,21 +243,30 @@ svg{display:block;}
   <div class="mw">
     <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-104.8%2C19.0%2C-101.5%2C21.6&layer=mapnik"></iframe>
     <div class="mp" id="map-pins"></div>
-    <div class="mc" onclick="goDetail(-1)">
-      <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px;">
-        <div id="mc-thumb" style="width:56px;height:56px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--bluep);"><img id="mc-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-        <div style="flex:1;min-width:0;">
-          <div id="mc-name" style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
-          <div id="mc-loc" style="font-size:12px;color:var(--blue);font-weight:600;"></div>
+    <div class="mc" id="mc-card" onclick="goDetail(-1)">
+      <!-- Left: full-height image -->
+      <div style="width:90px;flex-shrink:0;overflow:hidden;background:var(--bluep);">
+        <img id="mc-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <!-- Right: info -->
+      <div style="flex:1;min-width:0;padding:12px 13px;display:flex;flex-direction:column;justify-content:space-between;">
+        <div>
+          <div id="mc-type" style="font-size:10px;font-weight:700;color:var(--purple);background:var(--purpleb);border-radius:20px;padding:2px 9px;display:inline-block;margin-bottom:5px;letter-spacing:.2px;"></div>
+          <div id="mc-name" style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.3;margin-bottom:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"></div>
+          <div id="mc-loc" style="font-size:11px;color:var(--blue);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:6px;">
+          <div>
+            <div id="mc-price" style="font-size:14px;font-weight:800;color:var(--navy);line-height:1;"></div>
+            <div id="mc-dist" style="font-size:10px;color:var(--g3);margin-top:2px;"></div>
+          </div>
+          <button style="background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:10px;padding:7px 14px;font-size:12px;font-weight:600;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(24,95,165,.3);white-space:nowrap;flex-shrink:0;">Ver &rarr;</button>
         </div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <div id="mc-price" style="font-size:14px;font-weight:700;color:var(--navy);"></div>
-        <div style="display:flex;align-items:center;gap:5px;background:var(--bluep);border-radius:20px;padding:4px 11px;">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="9" r="3.8" stroke="#185FA5" stroke-width="1.6"/><path d="M11 21s-7.5-6.5-7.5-12a7.5 7.5 0 0115 0C18.5 14.5 11 21 11 21z" stroke="#185FA5" stroke-width="1.6" fill="none"/></svg><span id="mc-dist" style="font-size:11px;color:var(--blue);font-weight:600;"></span>
-        </div>
-        <button style="background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:12px;padding:7px 14px;font-size:12px;font-weight:600;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(24,95,165,.3);">Ver &rarr;</button>
-      </div>
+      <!-- Close button -->
+      <button onclick="event.stopPropagation();hidePreview()" style="position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.18);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1.5" y1="1.5" x2="8.5" y2="8.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="8.5" y1="1.5" x2="1.5" y2="8.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
     </div>
   </div>
   <div class="bn"><div class="bni" onclick="goTo('map')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="9" r="3.8" stroke="#185FA5" stroke-width="1.6"/><path d="M11 21s-7.5-6.5-7.5-12a7.5 7.5 0 0115 0C18.5 14.5 11 21 11 21z" stroke="#185FA5" stroke-width="1.6" fill="none"/></svg><span class="bnl on">Mapa</span></div><div class="bni" onclick="goTo('agenda')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="5" width="16" height="14" rx="3" stroke="#888780" stroke-width="1.6"/><line x1="8" y1="3" x2="8" y2="7" stroke="#888780" stroke-width="1.6" stroke-linecap="round"/><line x1="14" y1="3" x2="14" y2="7" stroke="#888780" stroke-width="1.6" stroke-linecap="round"/><line x1="3" y1="10" x2="19" y2="10" stroke="#888780" stroke-width="1.4"/><circle cx="8" cy="14" r="1.2" fill="#888780"/><circle cx="11" cy="14" r="1.2" fill="#888780"/><circle cx="14" cy="14" r="1.2" fill="#888780"/></svg><span class="bnl">Agenda</span></div><div class="bni" onclick="goTo('perfil')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#888780" stroke-width="1.6"/><path d="M3.5 20c0-4 3.4-6.5 7.5-6.5s7.5 2.5 7.5 6.5" stroke="#888780" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span class="bnl">Perfil</span></div></div>
@@ -782,11 +792,26 @@ function updPreview(){
   const c=clinics[sel];
   document.getElementById('mc-name').textContent=c.name;
   document.getElementById('mc-loc').textContent=c.loc;
-  document.getElementById('mc-price').textContent=`$${c.price} MXN / turno`;
+  document.getElementById('mc-price').textContent=`$${c.price} MXN/turno`;
   document.getElementById('mc-dist').textContent=`${c.distKm} km desde tu ubicaci\u00f3n`;
+  document.getElementById('mc-type').textContent=c.type;
   const img=document.getElementById('mc-img');if(img)img.src=c.imgs[0];
+  document.getElementById('mc-card').classList.add('on');
+}
+function hidePreview(){
+  document.getElementById('mc-card').classList.remove('on');
 }
 function selPin(i){sel=i;buildPins();updPreview();}
+// Tap on map background hides preview
+document.getElementById('map-pins').addEventListener('click',function(e){
+  if(e.target===this)hidePreview();
+});
+document.querySelector('.mw iframe').addEventListener('load',function(){
+  // also allow tapping the iframe area to dismiss (best-effort)
+});
+document.querySelector('.mw').addEventListener('click',function(e){
+  if(e.target===this)hidePreview();
+});
 
 function buildCal(){
   const av=avDays(calY,calM);
@@ -1152,7 +1177,8 @@ function filterMap(f){
     if(fi>=0){selPin(fi);}
   }
 }
-buildPins();updPreview();
+buildPins();
+
 </script>
 </body>
 </html>
