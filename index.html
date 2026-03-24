@@ -57,7 +57,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .pb.on{background:var(--teal);box-shadow:0 3px 12px rgba(29,158,117,.5);}
 .pt{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid var(--blue);margin:0 auto;filter:drop-shadow(0 2px 3px rgba(24,95,165,.3));}
 .pt.on{border-top-color:var(--teal);}
-.mc{position:absolute;bottom:14px;left:12px;right:12px;background:var(--w);border-radius:var(--rl);box-shadow:var(--sh2);cursor:pointer;border:0.5px solid rgba(0,0,0,.05);overflow:hidden;display:none;flex-direction:row;height:100px;transition:transform .25s cubic-bezier(.3,1.2,.5,1),opacity .2s;}
+.mc{position:absolute;bottom:14px;left:12px;right:12px;background:var(--w);border-radius:var(--r);box-shadow:var(--sh2);cursor:pointer;border:0.5px solid rgba(0,0,0,.05);border-left:3px solid var(--blue);overflow:hidden;display:none;flex-direction:row;transition:transform .25s cubic-bezier(.3,1.2,.5,1),opacity .2s;}
 .mc.on{display:flex;}
 
 /* GALLERY */
@@ -244,27 +244,23 @@ svg{display:block;}
     <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-104.8%2C19.0%2C-101.5%2C21.6&layer=mapnik"></iframe>
     <div class="mp" id="map-pins"></div>
     <div class="mc" id="mc-card" onclick="goDetail(-1)">
-      <!-- Left: full-height image with rounded left corners -->
-      <div style="width:86px;flex-shrink:0;overflow:hidden;background:var(--bluep);border-radius:var(--rl) 0 0 var(--rl);">
-        <img id="mc-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <!-- Right: info — fixed height, no overflow -->
-      <div style="flex:1;min-width:0;padding:10px 36px 10px 12px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;">
+      <!-- Info panel — no image -->
+      <div style="flex:1;min-width:0;padding:14px 40px 14px 16px;display:flex;flex-direction:column;gap:8px;overflow:hidden;">
         <div style="overflow:hidden;">
-          <div id="mc-type" style="font-size:9px;font-weight:700;color:var(--purple);background:var(--purpleb);border-radius:20px;padding:2px 8px;display:inline-block;margin-bottom:4px;letter-spacing:.2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
-          <div id="mc-name" style="font-size:12px;font-weight:700;color:var(--navy);line-height:1.3;margin-bottom:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"></div>
-          <div id="mc-loc" style="font-size:10px;color:var(--blue);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+          <div id="mc-type" style="font-size:9px;font-weight:700;color:var(--purple);background:var(--purpleb);border-radius:20px;padding:2px 9px;display:inline-block;margin-bottom:5px;letter-spacing:.3px;white-space:nowrap;"></div>
+          <div id="mc-name" style="font-size:14px;font-weight:700;color:var(--navy);line-height:1.3;margin-bottom:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"></div>
+          <div id="mc-loc" style="font-size:12px;color:var(--blue);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:5px;flex-shrink:0;">
-          <div style="min-width:0;overflow:hidden;">
-            <div id="mc-price" style="font-size:13px;font-weight:800;color:var(--navy);line-height:1;white-space:nowrap;"></div>
-            <div id="mc-dist" style="font-size:9px;color:var(--g3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <div>
+            <div id="mc-price" style="font-size:15px;font-weight:800;color:var(--navy);line-height:1;white-space:nowrap;"></div>
+            <div id="mc-dist" style="font-size:10px;color:var(--g3);margin-top:2px;white-space:nowrap;"></div>
           </div>
-          <button style="background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:10px;padding:6px 12px;font-size:11px;font-weight:700;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(24,95,165,.28);white-space:nowrap;flex-shrink:0;">Ver &rarr;</button>
+          <button style="background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:10px;padding:8px 16px;font-size:12px;font-weight:700;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(24,95,165,.28);white-space:nowrap;flex-shrink:0;">Ver detalle &rarr;</button>
         </div>
       </div>
-      <!-- Close button — styled to match interface -->
-      <button onclick="event.stopPropagation();hidePreview()" style="position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--g5);border:0.5px solid var(--g4);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.1);">
+      <!-- Close button -->
+      <button onclick="event.stopPropagation();hidePreview()" style="position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:var(--g5);border:0.5px solid var(--g4);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.1);">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1.5" y1="1.5" x2="8.5" y2="8.5" stroke="#48484A" stroke-width="1.8" stroke-linecap="round"/><line x1="8.5" y1="1.5" x2="1.5" y2="8.5" stroke="#48484A" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
     </div>
@@ -699,7 +695,7 @@ const clinics=[
    desc:'Espacio cl\u00ednico de alta gama en el coraz\u00f3n de Tepatitl\u00e1n. Rampa de acceso y sanitario adaptado.',
    impact:'Llevar\u00e1s medicina especializada a Tepatitl\u00e1n, donde los pacientes deben viajar a GDL para ver a un especialista.',
    reviews:[{doc:'Dra. Luc\u00eda R\u00edos \u2014 Ginecolog\u00eda',txt:'Muy bien ubicado, pacientes muy agradecidos.',score:5,date:'10 Mar 2026'},{doc:'Dr. Ernesto Mora \u2014 Medicina Interna',txt:'Excelentes instalaciones para una ciudad del interior.',score:5,date:'22 Feb 2026'}],
-   imgs:['https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80','https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=600&q=80','https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80'],
+   imgs:['https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&q=80','https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80','https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=80'],
    colors:['#c8ddf5','#b8cce8','#a8bbdb'],mapX:'62.1%',mapY:'30.1%'},
   {name:'Centro M\u00e9dico Lagos de Moreno',type:'Consultorio cl\u00ednico',loc:'Lagos de Moreno, Jal.',addr:'Av. Ju\u00e1rez 120, Centro',distKm:95,driveMin:80,price:600,accessible:false,rating:'4.6',rcount:'(18 rese\u00f1as)',
    equip:['Escritorio m\u00e9dico','Camilla','Ultrasonido port\u00e1til','B\u00e1scula digital'],
@@ -710,7 +706,7 @@ const clinics=[
    desc:'Consultorio amplio en Lagos de Moreno con ultrasonido port\u00e1til. Zona con alta demanda.',
    impact:'Lagos de Moreno tiene m\u00e1s de 160,000 habitantes y muy pocos especialistas.',
    reviews:[{doc:'Dr. H\u00e9ctor Sandoval \u2014 Cardiolog\u00eda',txt:'Pacientes llegaron desde ranchos cercanos.',score:5,date:'5 Mar 2026'},{doc:'Dra. Ver\u00f3nica Castro \u2014 Pediatr\u00eda',txt:'Buen espacio, gente muy receptiva.',score:4,date:'18 Feb 2026'}],
-   imgs:['https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=600&q=80','https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=600&q=80','https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80'],
+   imgs:['https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80','https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&q=80','https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&q=80'],
    colors:['#b8cce8','#c8ddf5','#a8bbdb'],mapX:'86.9%',mapY:'9.4%'},
   {name:'Consultorio San Juan de los Lagos',type:'Consultorio cl\u00ednico',loc:'San Juan de los Lagos, Jal.',addr:'Portal Morelos 8, Centro',distKm:80,driveMin:65,price:580,accessible:true,rating:'4.7',rcount:'(22 rese\u00f1as)',
    equip:['Escritorio m\u00e9dico','Camilla','Ox\u00edmetro','Estetoscopio digital','L\u00e1mpara'],
@@ -721,7 +717,7 @@ const clinics=[
    desc:'Consultorio c\u00e9ntrico con rampa de acceso para adultos mayores. Alta afluencia regional.',
    impact:'San Juan atrae pacientes de toda la regi\u00f3n sin acceso a especialistas.',
    reviews:[{doc:'Dra. Patricia N\u00fa\u00f1ez \u2014 Endocrinolog\u00eda',txt:'Llegaron pacientes de 3 municipios distintos.',score:5,date:'8 Mar 2026'},{doc:'Dr. Alfonso Leal \u2014 Medicina Gral.',txt:'Espacio c\u00f3modo, muy bien ubicado.',score:4,date:'14 Feb 2026'}],
-   imgs:['https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80','https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&q=80','https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=600&q=80'],
+   imgs:['https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=80','https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80','https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&q=80'],
    colors:['#a8bbdb','#c8ddf5','#b8cce8'],mapX:'75.0%',mapY:'13.6%'},
   {name:'Cl\u00ednica Privada Colima Norte',type:'Consultorio para procedimientos',loc:'Colima, Col.',addr:'Blvd. Camino Real 310',distKm:98,driveMin:85,price:720,accessible:true,rating:'4.9',rcount:'(44 rese\u00f1as)',
    equip:['Mesa de procedimientos','Ultrasonido alta res.','Monitor multip\u00e1rametros','Electrocauterio','Iluminaci\u00f3n quir\u00fargica','Ox\u00edmetro'],
@@ -732,7 +728,7 @@ const clinics=[
    desc:'Cl\u00ednica boutique para procedimientos menores y alta especialidad. La mejor opci\u00f3n fuera de GDL.',
    impact:'Colima tiene escasa oferta de especialistas privados. Tu presencia ampl\u00eda el acceso regional.',
    reviews:[{doc:'Dra. Claudia Ibarra \u2014 Dermatolog\u00eda',txt:'Instalaciones excelentes, las mejores fuera de GDL.',score:5,date:'12 Mar 2026'},{doc:'Dr. Roberto \u00c1ngeles \u2014 Neurolog\u00eda',txt:'Pacientes muy bien atendidos.',score:5,date:'28 Feb 2026'}],
-   imgs:['https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=600&q=80','https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80','https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=600&q=80'],
+   imgs:['https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&q=80','https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&q=80','https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80'],
    colors:['#c8ddf5','#a8bbdb','#b8cce8'],mapX:'32.6%',mapY:'90.6%'},
   {name:'Consultorio M\u00e9dico Sayula',type:'Consultorio cl\u00ednico',loc:'Sayula, Jalisco',addr:'Calle Constituci\u00f3n 28, Centro',distKm:97,driveMin:80,price:490,accessible:false,rating:'4.5',rcount:'(11 rese\u00f1as)',
    equip:['Escritorio m\u00e9dico','Camilla','Tensi\u00f3metro digital','Ox\u00edmetro'],
@@ -743,7 +739,7 @@ const clinics=[
    desc:'Consultorio funcional en Sayula, sur de Jalisco. Alta prevalencia de enfermedades cr\u00f3nicas.',
    impact:'Sayula tiene muy poca oferta m\u00e9dica especializada. Tu presencia puede cambiar la vida de muchas familias.',
    reviews:[{doc:'Dr. Jaime Delgado \u2014 Medicina Interna',txt:'Vale completamente la pena el viaje.',score:5,date:'2 Mar 2026'},{doc:'Dra. Silvia Torres \u2014 Nutrici\u00f3n',txt:'Alt\u00edsima demanda reprimida. Pacientes muy agradecidos.',score:4,date:'10 Feb 2026'}],
-   imgs:['https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&q=80','https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80','https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=600&q=80'],
+   imgs:['https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80','https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=80','https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80'],
    colors:['#a8bbdb','#b8cce8','#c8ddf5'],mapX:'36.1%',mapY:'66.2%'}
 ];
 
